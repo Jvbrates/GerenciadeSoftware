@@ -39,5 +39,11 @@ def history(mac_address):
     click.echo(orm.history_device(mac_address))
 
 
+@cli.command()
+def clear():
+    """Deleta todos os registros de dispositivos e descobertas"""
+    orm.drop_devices()
+
+
 if __name__ == '__main__':
     cli()
