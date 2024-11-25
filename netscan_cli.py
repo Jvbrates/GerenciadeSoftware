@@ -4,6 +4,7 @@ from scapy.sendrecv import sniff
 
 from net_discover import icmp_scan, arp2_monitor_callback
 import orm
+import settings
 
 
 @click.group()
@@ -29,7 +30,9 @@ def icmp(ip, timeout):
 @click.option('--timeout', default=1, help='Time to consider a ICMP response as timeout')
 def arp_response(timeout):
     """Descoberta da rede por meio de escuta de respostas arp (considera somente campos source)"""
+    settings.set_setting("arp2_run", True)
     sniff(prn=arp2_monitor_callback, filter="arp", store=0, timeout=timeout)
+    settings.set_setting("arp2_run", False)
 
 
 @cli.command()

@@ -9,7 +9,6 @@ from sqlalchemy import select
 from vendor_solver import vendor_solver
 from enum import Enum
 
-
 class EnumMethods(Enum):
     ICMP_ECHO_RESPONSE = 3
     ARP_2 = 2
@@ -18,7 +17,6 @@ class EnumMethods(Enum):
 
 # Define o modelo base
 Base = declarative_base()
-
 
 # Define a tabela Device como um modelo
 class Device(Base):
@@ -219,5 +217,4 @@ def history_device(mac: str) -> str:
                 table.append(row)
 
             return tabulate.tabulate(table, headers=header, tablefmt="double_grid")
-
 
