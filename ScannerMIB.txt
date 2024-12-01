@@ -29,7 +29,7 @@ icmpMask OBJECT-TYPE
 
 icmpRun OBJECT-TYPE
 	SYNTAX INTEGER
-	ACCESS write-only
+	ACCESS read-write
 	STATUS mandatory
 	DESCRIPTION "Escrever qualquer valor nao nulo ira executar o procedimento de descoberta de rede usando mensagens icmp echo-request na rede definida por icmpIp e icmpMask."
 ::= { icmp 3 }
@@ -45,7 +45,7 @@ arp2Timeout OBJECT-TYPE
 -- Nos folha de scan.arp2
 arp2Run OBJECT-TYPE
 	SYNTAX INTEGER
-	ACCESS write-only
+	ACCESS read-write
 	STATUS mandatory
 	DESCRIPTION "Escrever qualquer valor nao nulo ira executar o procedimento de descoberta da rede, ouvindo por mensagens arp-response. Este processo dura o tempo definido em timeout."
 ::= { arp2 2 }

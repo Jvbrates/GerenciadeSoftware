@@ -24,6 +24,7 @@ def view():
 def icmp(ip, timeout):
     """Procedimento de descoberta de rede via mensagens icmp"""
     icmp_scan(ip_dst=ip, timeout=timeout)
+    orm.get_line_device.cache_clear()
 
 
 @cli.command()
@@ -33,7 +34,7 @@ def arp_response(timeout):
     settings.set_setting("arp2_run", True)
     sniff(prn=arp2_monitor_callback, filter="arp", store=0, timeout=timeout)
     settings.set_setting("arp2_run", False)
-
+    orm.get_line_device.cache_clear()
 
 @cli.command()
 @click.argument("mac_address")
@@ -46,6 +47,8 @@ def history(mac_address):
 def clear():
     """Deleta todos os registros de dispositivos e descobertas"""
     orm.drop_devices()
+    orm.get_line_history.cache_clear()
+    orm.get_line_device.cache_clear()
 
 
 if __name__ == '__main__':

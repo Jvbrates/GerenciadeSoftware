@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from enum import Enum, auto
-from typing import List, Dict, Tuple, Any, Optional, Callable
+from typing import List, Dict, Tuple, Any, Optional, Callable, Union
 import ipaddress
 
 import asn1
@@ -105,7 +105,7 @@ class Integer(SNMPLeafValue):
 
     def encode(self) -> bytes:
         if isinstance(self.value, bool):
-            self.value = 1 if self.value else 0
+            self.value = 1 if self.value is True else 0
         return asn1.Encoder._encode_integer(self.value)
 
 
@@ -484,10 +484,12 @@ class VariableBind:
         WRITE_ONLY = auto()
 
     def __init__(self, oid: str, read: Callable[[VariableBinding], Tuple[int, SNMPLeafValue]] | SNMPLeafValue = None,
-                 write: Callable[[VariableBinding], Any] = None):
-        self._oid = oid
+                 write: Callable[[VariableBinding], Any] = None, use_start_with=False, get_next: Union[Callable, str, None] = None):
+        self.oid = oid
         self._read = read
         self._write = write
+        self.use_start_with = use_start_with
+        self.get_next = get_next
 
         if read and write:
             self.access = self.Access.READ_WRITE
