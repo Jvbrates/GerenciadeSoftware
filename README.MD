@@ -20,4 +20,4 @@
   - [x] Web Scanner Implementation (ICMP and ARP2)  
   - [x] MIb file definition  
   - [x] SNMP-Server Implementation  
-  - [] Web Interface
+  - [ ] Web Interface
