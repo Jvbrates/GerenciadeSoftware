@@ -17,3 +17,7 @@
 | mac-vendors-export.csv | CSV file used by `vendor_solver.py`                                                         |
 | ScannerMIB.txt         | MIB file definition                                                                         |
 
+  - [x] Web Scanner Implementation (ICMP and ARP2)  
+  - [x] MIb file definition  
+  - [x] SNMP-Server Implementation  
+  - [] Web Interface
