@@ -11,8 +11,13 @@ SUFFIX = "1.3.6.1.3.1."
 
 async def handler(req: SNMPRequest) -> SNMPResponse:
     v_list = {
-        # ROOT (SNMPWALK)
+        # INTERMEDIATE NOTES (SNMPWALK)
         SUFFIX[:-1]: VariableBind(SUFFIX[:-1], get_next=functions.get_next_root),
+        SUFFIX+"1": VariableBind(SUFFIX+"1", get_next=functions.get_next_root),
+        SUFFIX+"1.1": VariableBind(SUFFIX+"1.1", get_next=functions.get_next_root),
+        SUFFIX+"1.2": VariableBind(SUFFIX+"1.1", get_next=functions.get_next_arp2),
+        SUFFIX+"2": VariableBind(SUFFIX+"2", get_next=functions.get_next_history),
+        SUFFIX+"3": VariableBind(SUFFIX+"3", get_next=functions.get_next_device),
 
         # ICMP SCAN
         SUFFIX + "1.1.1": VariableBind(SUFFIX + "1.1.1", write=functions.set_ip_address_scan,

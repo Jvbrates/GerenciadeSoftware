@@ -127,6 +127,10 @@ def get_next_arp2_run(s: VariableBinding):
         return 2, NoSuchInstance(), s.oid
 
 
+def get_next_history(s: VariableBinding):
+    return get_next_arp2_run(s)
+
+
 def get_icmp_run(s: VariableBinding):
     v: bool = settings.get_setting("icmp_run")
     return 0, Integer(v)
@@ -135,6 +139,10 @@ def get_icmp_run(s: VariableBinding):
 def get_next_icmp_run(s: VariableBinding):
     s.oid = "1.3.6.1.3.1.1.2.1"
     return *get_arp2_timeout(s), s.oid
+
+
+def get_next_arp2(s: VariableBinding):
+    return get_next_icmp_run(s)
 
 
 def delete(s: VariableBinding):
@@ -179,6 +187,11 @@ def get_next_table_history(s: VariableBinding):
         return *get_table_history(s), s.oid
 
     return 2, NoSuchInstance(), s.oid
+
+
+def get_next_device(s: VariableBinding):
+    s.oid = "1.3.6.1.3.1.3.1.1"
+    return *get_next_table_device(s), s.oid
 
 
 def get_next_table_device(s: VariableBinding):
