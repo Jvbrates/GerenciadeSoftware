@@ -97,7 +97,6 @@ def get(req_vbs: List[snmp.VariableBinding],
 def get_next(req_vbs: List[snmp.VariableBinding], vbs: Dict[str, snmp.VariableBind]) \
         -> [List[snmp.VariableBinding], int, int]:
     response: List[snmp.VariableBinding] = []
-
     for index, vbind in enumerate(req_vbs):
         if binder := find_varbind(vbind, vbs):
             err, value, oid = binder.get_next(vbind)

@@ -287,5 +287,3 @@ def get_line_device(id_: int) -> List:
             pre_formated = format_output_device_network(device_list[0])
             return [pre_formated[1], pre_formated[3], pre_formated[0], pre_formated[4], pre_formated[5], len(device_list[0])]
 
-
-print((get_line_device(1)))

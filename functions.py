@@ -117,6 +117,7 @@ def get_arp2_run(s: VariableBinding):
 
 
 def get_next_arp2_run(s: VariableBinding):
+    print("GET NEXT ARP2 RUN")
     if orm.count_history_line() > 0:
         s.oid = "1.3.6.1.3.1.2.1.1"
         return *get_table_history(s), s.oid
@@ -128,6 +129,7 @@ def get_next_arp2_run(s: VariableBinding):
 
 
 def get_next_history(s: VariableBinding):
+    s.oid = "1.3.6.1.3.1.2.1.1"
     return get_next_arp2_run(s)
 
 
@@ -170,20 +172,31 @@ def get_table_history(s: VariableBinding):
 
 
 def get_next_table_history(s: VariableBinding):
+
     oid = s.oid.split(".")
+
+
     if len(oid) != 9:
         return 2, NoSuchInstance()
     column, line = [int(i) for i in oid[-2:]]
-
+    print(column, line)
     if line >= orm.count_history_line():
         if column == 4:
             s.oid = "1.3.6.1.3.1.3.1.1"
             return *get_table_device(s), s.oid
-        elif 4 > column > 0:
-            s.oid = s.oid[:-3] + f"{column + 1}.{1}"
+        elif 4 >= column > 0:
+            oid = oid[:-2] + [str(column+1), "1"]
+            s.oid = ".".join(oid)
+            print(f"INCREMENT LINE {s.oid}")
             return *get_table_history(s), s.oid
+
     else:
-        s.oid = s.oid[:-3] + f"{column}.{line + 1}"
+        s_old = s.oid
+        oid = oid[:-2] + [str(column), str(line+1)]
+        print(oid)
+        s.oid = ".".join(oid)
+        print(f"INCREMENT Line {s_old} >> {s.oid} [{orm.count_history_line()}]")
+
         return *get_table_history(s), s.oid
 
     return 2, NoSuchInstance(), s.oid
@@ -191,7 +204,7 @@ def get_next_table_history(s: VariableBinding):
 
 def get_next_device(s: VariableBinding):
     s.oid = "1.3.6.1.3.1.3.1.1"
-    return *get_next_table_device(s), s.oid
+    return get_next_table_device(s)
 
 
 def get_next_table_device(s: VariableBinding):
@@ -204,10 +217,15 @@ def get_next_table_device(s: VariableBinding):
         if column == 6:
             return 0, EndOfMibView(), s.oid
         elif 6 > column > 0:
-            s.oid = s.oid[:-3] + f"{column + 1}.{1}"
+            oid = oid[:-2] + [str(column+1), "1"]
+            s.oid = ".".join(oid)
+            print(f"INCREMENT COLUMN {s.oid}")
             return *get_table_device(s), s.oid
     else:
-        s.oid = s.oid[:-3] + f"{column}.{line + 1}"
+        oid = oid[:-2] + [str(column), str(line+1)]
+        s.oid = ".".join(oid)
+        print(f"INCREMENT LINE {s.oid}")
+
         return *get_table_device(s), s.oid
 
     return 2, NoSuchInstance(), s.oid

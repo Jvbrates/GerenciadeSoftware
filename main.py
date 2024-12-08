@@ -15,7 +15,7 @@ async def handler(req: SNMPRequest) -> SNMPResponse:
         SUFFIX[:-1]: VariableBind(SUFFIX[:-1], get_next=functions.get_next_root),
         SUFFIX+"1": VariableBind(SUFFIX+"1", get_next=functions.get_next_root),
         SUFFIX+"1.1": VariableBind(SUFFIX+"1.1", get_next=functions.get_next_root),
-        SUFFIX+"1.2": VariableBind(SUFFIX+"1.1", get_next=functions.get_next_arp2),
+        SUFFIX+"1.2": VariableBind(SUFFIX+"1.2", get_next=functions.get_next_arp2),
         SUFFIX+"2": VariableBind(SUFFIX+"2", get_next=functions.get_next_history),
         SUFFIX+"3": VariableBind(SUFFIX+"3", get_next=functions.get_next_device),
 
@@ -34,11 +34,11 @@ async def handler(req: SNMPRequest) -> SNMPResponse:
                                        read=functions.get_arp2_run, get_next=functions.get_next_arp2_run),
 
         # TABLE HISTORY
-        SUFFIX + "2": VariableBind(SUFFIX + "2", read=functions.get_table_history, use_start_with=True,
+        SUFFIX + "2.": VariableBind(SUFFIX + "2", read=functions.get_table_history, use_start_with=True,
                                    get_next=functions.get_next_table_history),
 
         # TABLE DEVICE
-        SUFFIX + "3": VariableBind(SUFFIX + "3", read=functions.get_table_device, use_start_with=True,
+        SUFFIX + "3.": VariableBind(SUFFIX + "3", read=functions.get_table_device, use_start_with=True,
                                    get_next=functions.get_next_table_device),
 
         # DELETE
